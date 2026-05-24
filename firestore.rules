@@ -1,0 +1,270 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userProfile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      return isSignedIn()
+        && userProfile().data.role == "admin";
+    }
+
+    function isOwner(uid) {
+      return isSignedIn()
+        && request.auth.uid == uid;
+    }
+
+    function hasOnlyAllowedUserFields() {
+      return request.resource.data.keys().hasOnly([
+        "email",
+        "name",
+        "role",
+        "createdAt",
+        "updatedAt"
+      ]);
+    }
+
+    function isValidSelfUserCreate(uid) {
+      return isOwner(uid)
+        && hasOnlyAllowedUserFields()
+        && request.resource.data.role == "viewer";
+    }
+
+    function hasOnlyAllowedCowFields() {
+      return request.resource.data.keys().hasOnly([
+        "cowNumber",
+        "name",
+        "breed",
+        "birthDate",
+        "profileImageUrl",
+        "status",
+        "lastMilkLiters",
+        "lastMilkRecordDate",
+        "lastHealthNote",
+        "lastPregnancyStatus",
+        "expectedDeliveryDate",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]);
+    }
+
+    function hasOnlyAllowedMilkRecordFields() {
+      return request.resource.data.keys().hasOnly([
+        "recordDate",
+        "morningLiters",
+        "eveningLiters",
+        "totalLiters",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]);
+    }
+
+    function hasValidMilkRecordValues() {
+      return request.resource.data.recordDate is string
+        && request.resource.data.morningLiters is number
+        && request.resource.data.eveningLiters is number
+        && request.resource.data.totalLiters is number
+        && request.resource.data.morningLiters >= 0
+        && request.resource.data.eveningLiters >= 0
+        && request.resource.data.totalLiters >= 0;
+    }
+
+    function hasOnlyAllowedHealthRecordFields() {
+      return request.resource.data.keys().hasOnly([
+        "recordDate",
+        "issue",
+        "severity",
+        "treatment",
+        "followUpDate",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]);
+    }
+
+    function hasValidHealthRecordValues() {
+      return request.resource.data.recordDate is string
+        && request.resource.data.issue is string
+        && request.resource.data.severity in ["low", "medium", "high"];
+    }
+
+    function hasOnlyAllowedMedicineRecordFields() {
+      return request.resource.data.keys().hasOnly([
+        "medicineName",
+        "dosage",
+        "reason",
+        "startDate",
+        "endDate",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]);
+    }
+
+    function hasValidMedicineRecordValues() {
+      return request.resource.data.medicineName is string
+        && request.resource.data.dosage is string
+        && request.resource.data.reason is string
+        && request.resource.data.startDate is string;
+    }
+
+    function hasOnlyAllowedPregnancyRecordFields() {
+      return request.resource.data.keys().hasOnly([
+        "breedingDate",
+        "expectedDeliveryDate",
+        "status",
+        "bullName",
+        "checkupDate",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]);
+    }
+
+    function hasValidPregnancyRecordValues() {
+      return request.resource.data.breedingDate is string
+        && request.resource.data.status in ["bred", "confirmed", "delivered", "failed"];
+    }
+
+    function hasOnlyAllowedVaccinationRecordFields() {
+      return request.resource.data.keys().hasOnly([
+        "vaccineName",
+        "dueDate",
+        "status",
+        "givenDate",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]);
+    }
+
+    function hasValidVaccinationRecordValues() {
+      return request.resource.data.vaccineName is string
+        && request.resource.data.dueDate is string
+        && request.resource.data.status in ["pending", "done", "missed"];
+    }
+
+    function hasOnlyAllowedExpenseFields() {
+      return request.resource.data.keys().hasOnly([
+        "expenseDate",
+        "category",
+        "amount",
+        "title",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]);
+    }
+
+    function hasValidExpenseValues() {
+      return request.resource.data.expenseDate is string
+        && request.resource.data.category in ["feed", "medicine", "worker", "vet", "maintenance", "other"]
+        && request.resource.data.amount is number
+        && request.resource.data.amount > 0
+        && request.resource.data.title is string;
+    }
+
+    function hasOnlyAllowedWorkerFields() {
+      return request.resource.data.keys().hasOnly([
+        "name",
+        "phone",
+        "role",
+        "monthlySalary",
+        "status",
+        "notes",
+        "createdAt",
+        "updatedAt"
+      ]);
+    }
+
+    function hasValidWorkerValues() {
+      return request.resource.data.name is string
+        && request.resource.data.role is string
+        && request.resource.data.status in ["active", "inactive"];
+    }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isValidSelfUserCreate(uid) || isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    match /cows/{cowId} {
+      allow read: if isSignedIn();
+      allow create, update: if isAdmin() && hasOnlyAllowedCowFields();
+      allow delete: if isAdmin();
+
+      match /milkRecords/{recordId} {
+        allow read: if isSignedIn();
+        allow create, update: if isAdmin()
+          && hasOnlyAllowedMilkRecordFields()
+          && hasValidMilkRecordValues();
+        allow delete: if isAdmin();
+      }
+
+      match /healthRecords/{recordId} {
+        allow read: if isSignedIn();
+        allow create, update: if isAdmin()
+          && hasOnlyAllowedHealthRecordFields()
+          && hasValidHealthRecordValues();
+        allow delete: if isAdmin();
+      }
+
+      match /medicineRecords/{recordId} {
+        allow read: if isSignedIn();
+        allow create, update: if isAdmin()
+          && hasOnlyAllowedMedicineRecordFields()
+          && hasValidMedicineRecordValues();
+        allow delete: if isAdmin();
+      }
+
+      match /pregnancyRecords/{recordId} {
+        allow read: if isSignedIn();
+        allow create, update: if isAdmin()
+          && hasOnlyAllowedPregnancyRecordFields()
+          && hasValidPregnancyRecordValues();
+        allow delete: if isAdmin();
+      }
+
+      match /vaccinationRecords/{recordId} {
+        allow read: if isSignedIn();
+        allow create, update: if isAdmin()
+          && hasOnlyAllowedVaccinationRecordFields()
+          && hasValidVaccinationRecordValues();
+        allow delete: if isAdmin();
+      }
+    }
+
+    match /expenses/{expenseId} {
+      allow read: if isSignedIn();
+      allow create, update: if isAdmin()
+        && hasOnlyAllowedExpenseFields()
+        && hasValidExpenseValues();
+      allow delete: if isAdmin();
+    }
+
+    match /workers/{workerId} {
+      allow read: if isSignedIn();
+      allow create, update: if isAdmin()
+        && hasOnlyAllowedWorkerFields()
+        && hasValidWorkerValues();
+      allow delete: if isAdmin();
+    }
+
+    match /connectionTests/{testId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
