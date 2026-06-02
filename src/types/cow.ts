@@ -26,3 +26,5 @@ export type CreateCowInput = {
   status: CowStatus;
   notes?: string;
 };
+
+export type UpdateCowInput = CreateCowInput;

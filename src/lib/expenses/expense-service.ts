@@ -1,15 +1,18 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   limit,
   orderBy,
   query,
   serverTimestamp,
   Timestamp,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
-import type { CreateExpenseInput, Expense, ExpenseCategory } from "@/types/expense";
+import type { CreateExpenseInput, Expense, ExpenseCategory, UpdateExpenseInput } from "@/types/expense";
 
 const expensesCollection = collection(db, "expenses");
 
@@ -23,6 +26,25 @@ export async function createExpense(input: CreateExpenseInput) {
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   });
+}
+
+export async function updateExpense(expenseId: string, input: UpdateExpenseInput) {
+  const expenseRef = doc(db, "expenses", expenseId);
+
+  return updateDoc(expenseRef, {
+    expenseDate: input.expenseDate,
+    category: input.category,
+    amount: Number(input.amount),
+    title: input.title.trim(),
+    notes: input.notes?.trim() || null,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function deleteExpense(expenseId: string) {
+  const expenseRef = doc(db, "expenses", expenseId);
+
+  return deleteDoc(expenseRef);
 }
 
 export async function getRecentExpenses(): Promise<Expense[]> {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ExpenseCard } from "@/components/expenses/expense-card";
 import { ExpenseForm } from "@/components/expenses/expense-form";
 import { getRecentExpenses } from "@/lib/expenses/expense-service";
 import type { Expense } from "@/types/expense";
@@ -77,18 +78,7 @@ export function ExpensesDashboard() {
 
       <div className="grid gap-3">
         {expenses.map((expense) => (
-          <article key={expense.id} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <p className="text-sm font-semibold text-slate-950">{expense.title}</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  {expense.category} - {formatDisplayDate(expense.expenseDate)}
-                </p>
-                {expense.notes ? <p className="mt-2 text-sm leading-5 text-slate-600">{expense.notes}</p> : null}
-              </div>
-              <p className="text-lg font-semibold text-slate-950">{formatMoney(expense.amount)}</p>
-            </div>
-          </article>
+          <ExpenseCard expense={expense} key={expense.id} onChanged={loadExpenses} />
         ))}
       </div>
     </section>
@@ -110,12 +100,4 @@ function formatMoney(value: number) {
     maximumFractionDigits: 0,
     style: "currency",
   }).format(value);
-}
-
-function formatDisplayDate(value: string) {
-  return new Intl.DateTimeFormat("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(value));
 }

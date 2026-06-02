@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { CowProfileActions } from "@/components/cows/cow-profile-actions";
 import { CowStatusBadge } from "@/components/cows/cow-status-badge";
 import { HealthRecordsPanel } from "@/components/health/health-records-panel";
 import { MedicineRecordsPanel } from "@/components/medicine/medicine-records-panel";
@@ -19,6 +20,7 @@ export function CowDetailPanel({ cowId }: CowDetailPanelProps) {
   const [cow, setCow] = useState<Cow | null>(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -50,7 +52,7 @@ export function CowDetailPanel({ cowId }: CowDetailPanelProps) {
     return () => {
       isMounted = false;
     };
-  }, [cowId]);
+  }, [cowId, refreshKey]);
 
   if (isLoading) {
     return (
@@ -134,6 +136,8 @@ export function CowDetailPanel({ cowId }: CowDetailPanelProps) {
           </div>
         ) : null}
       </section>
+
+      <CowProfileActions cow={cow} onChanged={() => setRefreshKey((current) => current + 1)} />
 
       <MilkRecordsPanel cowId={cow.id} />
       <HealthRecordsPanel cowId={cow.id} />

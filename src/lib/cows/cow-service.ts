@@ -8,9 +8,10 @@ import {
   query,
   serverTimestamp,
   Timestamp,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
-import type { Cow, CowStatus, CreateCowInput } from "@/types/cow";
+import type { Cow, CowStatus, CreateCowInput, UpdateCowInput } from "@/types/cow";
 
 const cowsCollection = collection(db, "cows");
 
@@ -46,6 +47,29 @@ export async function getCowProfileById(cowId: string): Promise<Cow | null> {
   }
 
   return mapCowDocument(snapshot.id, snapshot.data());
+}
+
+export async function updateCowProfile(cowId: string, input: UpdateCowInput) {
+  const cowRef = doc(db, "cows", cowId);
+
+  return updateDoc(cowRef, {
+    cowNumber: input.cowNumber.trim(),
+    name: input.name?.trim() || null,
+    breed: input.breed.trim(),
+    birthDate: input.birthDate || null,
+    status: input.status,
+    notes: input.notes?.trim() || null,
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function updateCowStatus(cowId: string, status: CowStatus) {
+  const cowRef = doc(db, "cows", cowId);
+
+  return updateDoc(cowRef, {
+    status,
+    updatedAt: serverTimestamp(),
+  });
 }
 
 function mapCowDocument(id: string, data: Record<string, unknown>): Cow {

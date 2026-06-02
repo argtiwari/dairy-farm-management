@@ -18,3 +18,5 @@ export type CreateExpenseInput = {
   title: string;
   notes?: string;
 };
+
+export type UpdateExpenseInput = CreateExpenseInput;
