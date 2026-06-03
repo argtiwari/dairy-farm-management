@@ -24,34 +24,23 @@ export function CowDetailPanel({ cowId }: CowDetailPanelProps) {
 
   useEffect(() => {
     let isMounted = true;
-
     async function loadCow() {
       try {
         const { getCowProfileById } = await import("@/lib/cows/cow-service");
         const cowProfile = await getCowProfileById(cowId);
-
-        if (isMounted) {
-          setCow(cowProfile);
-        }
+        if (isMounted) setCow(cowProfile);
       } catch {
         const sampleCow = mockCows.find((item) => item.id === cowId) ?? null;
-
         if (isMounted) {
           setError("Could not load this cow from Firestore. Showing sample data if available.");
           setCow(sampleCow);
         }
       } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
+        if (isMounted) setIsLoading(false);
       }
     }
-
     loadCow();
-
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, [cowId, refreshKey]);
 
   if (isLoading) {
@@ -82,21 +71,19 @@ export function CowDetailPanel({ cowId }: CowDetailPanelProps) {
   const displayName = cow.name ? `${cow.name} (${cow.cowNumber})` : cow.cowNumber;
 
   return (
-    <div className="grid gap-4">
-      {error ? (
-        <p className="rounded-md bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800">
-          {error}
-        </p>
-      ) : null}
+    <div className="grid gap-6">
+      {error && (
+        <p className="rounded-md bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800">{error}</p>
+      )}
 
-      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <section className="overflow-hidden rounded-3xl border border-emerald-100 bg-white p-8 shadow-lg">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex gap-4">
-            <div className="flex size-16 shrink-0 items-center justify-center rounded-md bg-emerald-100 text-xl font-bold text-emerald-800">
-              {cow.cowNumber.slice(0, 2).toUpperCase()}
+            
+              {cow.cowNumber.slice(0, 2).toUpperCase()}<div className="flex size-24 shrink-0 items-center justify-center rounded-3xl bg-emerald-100 text-3xl font-bold text-emerald-800 shadow-md ring-4 ring-white">
             </div>
             <div>
-              <h2 className="text-2xl font-semibold text-slate-950">{displayName}</h2>
+              <h2 className="text-3xl font-bold text-slate-950">{displayName}</h2>
               <p className="mt-1 text-sm text-slate-600">{cow.breed}</p>
               <div className="mt-3">
                 <CowStatusBadge status={cow.status} />
@@ -105,7 +92,7 @@ export function CowDetailPanel({ cowId }: CowDetailPanelProps) {
           </div>
         </div>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <InfoItem label="Cow ID" value={cow.cowNumber} />
           <InfoItem label="Breed" value={cow.breed} />
           <InfoItem label="Birth date" value={cow.birthDate ?? "Not added"} />
@@ -129,15 +116,15 @@ export function CowDetailPanel({ cowId }: CowDetailPanelProps) {
           <InfoItem label="Updated" value={formatDisplayDate(cow.updatedAt)} />
         </div>
 
-        {cow.notes ? (
-          <div className="mt-5 rounded-md bg-slate-50 p-4">
+        {cow.notes && (
+          <div className="mt-8 rounded-2xl border border-amber-100 bg-amber-50 p-5">
             <p className="text-xs font-medium uppercase text-slate-500">Notes</p>
             <p className="mt-2 text-sm leading-6 text-slate-700">{cow.notes}</p>
           </div>
-        ) : null}
+        )}
       </section>
 
-      <CowProfileActions cow={cow} onChanged={() => setRefreshKey((current) => current + 1)} />
+      <CowProfileActions cow={cow} onChanged={() => setRefreshKey((c) => c + 1)} />
 
       <MilkRecordsPanel cowId={cow.id} />
       <HealthRecordsPanel cowId={cow.id} />
@@ -150,17 +137,17 @@ export function CowDetailPanel({ cowId }: CowDetailPanelProps) {
 
 function InfoItem({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md bg-slate-50 p-3">
-      <p className="text-xs font-medium uppercase text-slate-500">{label}</p>
-      <p className="mt-1 text-sm font-semibold text-slate-950">{value}</p>
+    <div className="rounded-2xl border border-emerald-100 bg-[#fcfbf7] p-5 transition-all hover:shadow-md">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+        {label}
+      </p>
+      <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">
+        {value}
+      </p>
     </div>
   );
 }
 
 function formatDisplayDate(value: string) {
-  return new Intl.DateTimeFormat("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(value));
+  return new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(value));
 }

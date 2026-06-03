@@ -15,6 +15,7 @@ export const mockCows: Cow[] = [
     notes: "High milk producer. Calm temperament.",
     createdAt: "2026-05-01T00:00:00.000Z",
     updatedAt: "2026-05-20T00:00:00.000Z",
+    profileImageUrl: "/cows/gauri.jpg"
   },
   {
     id: "cow-002",
@@ -31,6 +32,7 @@ export const mockCows: Cow[] = [
     notes: "Needs vaccination reminder next month.",
     createdAt: "2026-05-01T00:00:00.000Z",
     updatedAt: "2026-05-18T00:00:00.000Z",
+    profileImageUrl: "/cows/gauri.jpg"
   },
   {
     id: "cow-003",
@@ -44,5 +46,6 @@ export const mockCows: Cow[] = [
     notes: "Monitor feed and temperature.",
     createdAt: "2026-05-01T00:00:00.000Z",
     updatedAt: "2026-05-22T00:00:00.000Z",
+    profileImageUrl: "/cows/gauri.jpg"
   },
 ];

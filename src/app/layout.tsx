@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 import { AuthProvider } from "@/components/auth/auth-provider";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -9,16 +11,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="hi"
-      className="h-full antialiased"
-    >
+    <html lang="en" className="h-full antialiased bg-[#fdf9f4]">
       <body className="min-h-full flex flex-col">
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 pb-24">
+            {children}
+          </div>
+
+          <MobileBottomNav />
+        </AuthProvider>
       </body>
     </html>
   );
