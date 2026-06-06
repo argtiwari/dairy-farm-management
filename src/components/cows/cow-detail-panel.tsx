@@ -76,45 +76,56 @@ export function CowDetailPanel({ cowId }: CowDetailPanelProps) {
         <p className="rounded-md bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800">{error}</p>
       )}
 
-      <section className="overflow-hidden rounded-3xl border border-emerald-100 bg-white p-8 shadow-lg">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex gap-4">
-            
-              {cow.cowNumber.slice(0, 2).toUpperCase()}<div className="flex size-24 shrink-0 items-center justify-center rounded-3xl bg-emerald-100 text-3xl font-bold text-emerald-800 shadow-md ring-4 ring-white">
-            </div>
-            <div>
-              <h2 className="text-3xl font-bold text-slate-950">{displayName}</h2>
-              <p className="mt-1 text-sm text-slate-600">{cow.breed}</p>
-              <div className="mt-3">
-                <CowStatusBadge status={cow.status} />
-              </div>
-            </div>
-          </div>
+      <section className="overflow-hidden rounded-3xl border border-emerald-100 bg-white shadow-lg">
+
+  <div className="h-52 bg-gradient-to-r from-emerald-100 via-amber-50 to-emerald-50" />
+
+  <div className="relative px-6 pb-6">
+
+    <div className="-mt-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+
+        <div className="flex h-24 w-24 items-center justify-center rounded-3xl border-4 border-white bg-emerald-100 text-3xl font-bold text-emerald-800 shadow-lg">
+          {cow.cowNumber.slice(0, 2).toUpperCase()}
         </div>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <InfoItem label="Cow ID" value={cow.cowNumber} />
-          <InfoItem label="Breed" value={cow.breed} />
-          <InfoItem label="Birth date" value={cow.birthDate ?? "Not added"} />
-          <InfoItem
-            label="Last milk"
-            value={
-              cow.lastMilkLiters
-                ? `${cow.lastMilkLiters} L${cow.lastMilkRecordDate ? ` on ${formatDisplayDate(cow.lastMilkRecordDate)}` : ""}`
-                : "Not added"
-            }
-          />
-          <InfoItem label="Health note" value={cow.lastHealthNote ?? "No note"} />
-          <InfoItem
-            label="Pregnancy"
-            value={
-              cow.lastPregnancyStatus
-                ? `${cow.lastPregnancyStatus}${cow.expectedDeliveryDate ? ` - due ${formatDisplayDate(cow.expectedDeliveryDate)}` : ""}`
-                : "Not added"
-            }
-          />
-          <InfoItem label="Updated" value={formatDisplayDate(cow.updatedAt)} />
+        <div className="pb-2">
+         <h2 className="text-2xl font-bold leading-tight text-slate-950 sm:text-3xl">
+            {displayName}
+          </h2>
+
+          <p className="mt-1 text-sm text-slate-600">
+            {cow.breed}
+          </p>
         </div>
+
+      </div>
+
+      <CowStatusBadge status={cow.status} />
+    </div>
+
+    <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+
+  <button className="rounded-2xl bg-blue-600 py-3 text-sm font-semibold text-white">
+    + Milk
+  </button>
+
+  <button className="rounded-2xl bg-emerald-600 py-3 text-sm font-semibold text-white">
+    Health
+  </button>
+
+  <button className="rounded-2xl bg-amber-500 py-3 text-sm font-semibold text-white">
+    Vaccine
+  </button>
+
+  <button className="rounded-2xl bg-pink-500 py-3 text-sm font-semibold text-white">
+    Pregnancy
+  </button>
+
+</div>
+
+  </div>
+
 
         {cow.notes && (
           <div className="mt-8 rounded-2xl border border-amber-100 bg-amber-50 p-5">

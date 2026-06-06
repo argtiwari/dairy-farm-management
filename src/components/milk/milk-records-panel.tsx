@@ -59,10 +59,10 @@ export function MilkRecordsPanel({ cowId }: MilkRecordsPanelProps) {
   const analytics = getMilkAnalytics(records);
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+   <section className="rounded-3xl border border-emerald-100 bg-white p-6 shadow-sm">
       <div className="flex flex-col gap-1">
         <p className="text-sm font-medium text-emerald-700">Milk production</p>
-        <h3 className="text-lg font-semibold text-slate-950">Recent milk records</h3>
+        <h3 className="text-2xl font-bold text-slate-950">Recent milk records</h3>
         <p className="text-sm leading-6 text-slate-600">
           Track morning and evening milk for this cow.
         </p>
@@ -92,7 +92,7 @@ export function MilkRecordsPanel({ cowId }: MilkRecordsPanelProps) {
 
       {records.length > 0 ? (
         <div className="mt-4 grid gap-3">
-          <div className="grid gap-3 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             <AnalyticsCard
               label={`Last ${analytics.recordCount} records`}
               value={`${analytics.totalLiters.toFixed(1)} L`}
@@ -103,7 +103,7 @@ export function MilkRecordsPanel({ cowId }: MilkRecordsPanelProps) {
           </div>
 
           {records.map((record) => (
-            <article key={record.id} className="rounded-md border border-slate-200 p-3">
+            <article key={record.id} className="rounded-2xl border border-slate-200 bg-[#fcfbf7] p-4 shadow-sm">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="text-sm font-semibold text-slate-950">
@@ -128,9 +128,14 @@ export function MilkRecordsPanel({ cowId }: MilkRecordsPanelProps) {
 
 function AnalyticsCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md bg-emerald-50 p-3">
-      <p className="text-xs font-medium uppercase text-emerald-700">{label}</p>
-      <p className="mt-1 text-lg font-semibold text-emerald-900">{value}</p>
+    <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
+      <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+        {label}
+      </p>
+
+      <p className="mt-2 text-2xl font-bold text-emerald-900">
+        {value}
+      </p>
     </div>
   );
 }
