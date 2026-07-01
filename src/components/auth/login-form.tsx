@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowRight, Lock, Mail } from "lucide-react";
 import { loginWithEmailPassword } from "@/lib/auth/auth-service";
 
 export function LoginForm() {
@@ -18,7 +19,7 @@ export function LoginForm() {
     const password = String(formData.get("password") ?? "");
 
     if (!email || !password) {
-      setError("Email and password are required.");
+      setError("Email aur password dono likho.");
       return;
     }
 
@@ -29,69 +30,63 @@ export function LoginForm() {
       router.push("/cows");
       router.refresh();
     } catch {
-      setError("Login failed. Check email, password, and Firebase Authentication setup.");
+      setError("Login nahi hua. Email aur password check karo.");
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <form
-      className="grid gap-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
-      onSubmit={handleSubmit}
-    >
-      <div className="rounded-2xl border border-emerald-100 bg-emerald-50 px-3 py-3">
-        <p className="text-sm font-semibold text-emerald-800">Sign in to your farm account</p>
-        <p className="mt-1 text-sm text-emerald-700">
-          Use the email and password for your Firebase Authentication account.
-        </p>
+    <form className="grid gap-4 rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm" onSubmit={handleSubmit}>
+      <div className="rounded-[22px] border border-emerald-100 bg-emerald-50 px-3 py-3">
+        <p className="text-sm font-semibold text-emerald-800">Apna farm account khol kar aage badho</p>
       </div>
 
-      <div className="grid gap-2">
-        <label className="text-sm font-semibold text-slate-800" htmlFor="email">
-          Email
-        </label>
-        <input
-          autoComplete="email"
-          className="h-11 rounded-md border border-slate-300 px-3 text-sm outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100"
-          id="email"
-          name="email"
-          placeholder="admin@farm.com"
-          required
-          type="email"
-        />
-      </div>
+      <label className="grid gap-2 text-sm font-semibold text-slate-800" htmlFor="email">
+        Email
+        <div className="flex h-12 items-center gap-2 rounded-[16px] border border-slate-300 px-3">
+          <Mail className="h-4 w-4 text-slate-400" />
+          <input
+            autoComplete="email"
+            className="w-full bg-transparent text-sm outline-none"
+            id="email"
+            name="email"
+            placeholder="admin@farm.com"
+            required
+            type="email"
+          />
+        </div>
+      </label>
 
-      <div className="grid gap-2">
-        <label className="text-sm font-semibold text-slate-800" htmlFor="password">
-          Password
-        </label>
-        <input
-          autoComplete="current-password"
-          className="h-11 rounded-md border border-slate-300 px-3 text-sm outline-none focus:border-emerald-700 focus:ring-2 focus:ring-emerald-100"
-          id="password"
-          name="password"
-          required
-          type="password"
-        />
-      </div>
+      <label className="grid gap-2 text-sm font-semibold text-slate-800" htmlFor="password">
+        Password
+        <div className="flex h-12 items-center gap-2 rounded-[16px] border border-slate-300 px-3">
+          <Lock className="h-4 w-4 text-slate-400" />
+          <input
+            autoComplete="current-password"
+            className="w-full bg-transparent text-sm outline-none"
+            id="password"
+            name="password"
+            placeholder="Password likho"
+            required
+            type="password"
+          />
+        </div>
+      </label>
 
       {error ? (
-        <p className="rounded-md bg-rose-50 px-3 py-2 text-sm font-medium text-rose-700" role="alert">
+        <p className="rounded-[16px] bg-rose-50 px-3 py-2 text-sm font-medium text-rose-700" role="alert">
           {error}
         </p>
       ) : null}
 
-      <p className="text-xs leading-5 text-slate-500">
-        Admin accounts can add and edit records. Viewer accounts can browse farm information.
-      </p>
-
       <button
-        className="h-11 rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+        className="flex h-12 items-center justify-center gap-2 rounded-[16px] bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800 disabled:cursor-not-allowed disabled:bg-slate-300"
         disabled={isSubmitting}
         type="submit"
       >
-        {isSubmitting ? "Signing in..." : "Sign in"}
+        {isSubmitting ? "Login ho raha hai..." : "Login karo"}
+        <ArrowRight className="h-4 w-4" />
       </button>
     </form>
   );
