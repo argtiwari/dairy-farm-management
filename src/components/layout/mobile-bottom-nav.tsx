@@ -2,43 +2,117 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  House,
+  Beef,
+  Wallet,
+  Bell,
+  Users,
+} from "lucide-react";
 
 const items = [
-  { href: "/", label: "Home", icon: "🏠" },
-  { href: "/cows", label: "Animals", icon: "🐄" },
-  { href: "/expenses", label: "Expenses", icon: "💰" },
-  { href: "/reminders", label: "Alerts", icon: "🔔" },
-  { href: "/workers", label: "Workers", icon: "👷" },
+  {
+    href: "/",
+    icon: House,
+    label: "Home",
+  },
+  {
+    href: "/cows",
+    icon: Beef,
+    label: "Animals",
+  },
+  {
+    href: "/expenses",
+    icon: Wallet,
+    label: "Expenses",
+  },
+  {
+    href: "/reminders",
+    icon: Bell,
+    label: "Alerts",
+  },
+  {
+    href: "/workers",
+    icon: Users,
+    label: "Workers",
+  },
 ];
 
 export function MobileBottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 bg-white md:hidden">
-      <div className="grid grid-cols-5">
-        {items.map((item) => {
-          const active =
-            item.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(item.href);
+    <nav
+      className="
+      fixed
+      bottom-4
+      left-1/2
+      z-50
+      flex
+      w-[92%]
+      max-w-md
+      -translate-x-1/2
+      items-center
+      justify-around
+      rounded-[28px]
+      border
+      border-white/70
+      bg-white/90
+      px-3
+      py-3
+      shadow-xl
+      backdrop-blur-xl
+      md:hidden
+      "
+    >
+      {items.map((item) => {
+        const Icon = item.icon;
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex flex-col items-center gap-1 py-3 text-xs font-medium ${
+        const active =
+          pathname === item.href;
+
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="
+            flex
+            flex-col
+            items-center
+            gap-1
+            "
+          >
+            <div
+              className={`
+              flex
+              h-11
+              w-11
+              items-center
+              justify-center
+              rounded-2xl
+              transition-all
+              ${
                 active
-                  ? "text-emerald-600"
+                  ? "bg-emerald-600 text-white shadow-md"
+                  : "text-slate-500"
+              }
+              `}
+            >
+              <Icon size={20} />
+            </div>
+
+            <span
+              className={`text-[11px] ${
+                active
+                  ? "font-semibold text-emerald-700"
                   : "text-slate-500"
               }`}
             >
-              <span className="text-lg">{item.icon}</span>
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
-      </div>
+              {item.label}
+            </span>
+          </Link>
+        );
+      })}
     </nav>
   );
 }

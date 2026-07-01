@@ -19,7 +19,17 @@ import {
   CalendarClock,
 } from "lucide-react";
 import { AuthActions } from "@/components/auth/auth-actions";
+// import { HomeHero } from "@/components/home/home-hero";
+// import { FarmOverview } from "@/components/home/farm-overview";
+// import { section } from "framer-motion/client";
 
+// import { DashboardHero } from "@/components/dashboard/dashboard-hero";
+// import { TodayTasks } from "@/components/dashboard/today-tasks";
+// import { QuickActions } from "@/components/dashboard/quick-actions";
+// // import { FarmOverview } from "@/components/dashboard/farm-overview";
+
+// import { RecentAnimals } from "@/components/dashboard/recent-animals";
+// import { RecentActivity } from "@/components/dashboard/recent-activity";
 const features = [
   {
     title: "Animal Profiles",
@@ -83,6 +93,8 @@ const highlights = [
   },
 ];
 
+
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#fdf9f4] text-slate-900">
@@ -101,7 +113,8 @@ export default function Home() {
                   <p className="text-xs text-slate-500">Built for real dairy farmers</p>
                 </div>
               </div>
-
+{/* <HomeHero /> */}
+{/* <FarmOverview /> */}
               <div className="hidden sm:block">
                 <AuthActions />
               </div>

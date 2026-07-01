@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
+// import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 import { AuthProvider } from "@/components/auth/auth-provider";
+import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 
 import "./globals.css";
 
