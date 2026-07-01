@@ -12,9 +12,9 @@ import {
 
 const items = [
   {
-    href: "/",
+    href: "/dashboard",
     icon: House,
-    label: "Home",
+    label: "Today",
   },
   {
     href: "/cows",
@@ -69,7 +69,8 @@ export function MobileBottomNav() {
         const Icon = item.icon;
 
         const active =
-          pathname === item.href;
+          pathname === item.href ||
+          (item.href === "/dashboard" && pathname.startsWith("/dashboard"));
 
         return (
           <Link
@@ -83,6 +84,7 @@ export function MobileBottomNav() {
             "
           >
             <div
+              aria-current={active ? "page" : undefined}
               className={`
               flex
               h-11

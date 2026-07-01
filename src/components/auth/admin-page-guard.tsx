@@ -21,9 +21,9 @@ export function AdminPageGuard({ children }: AdminPageGuardProps) {
   if (!user) {
     return (
       <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-950">Login required</h2>
+        <h2 className="text-lg font-semibold text-slate-950">Sign in required</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          Please login before adding or editing cow profiles.
+          Please sign in before adding or editing cow profiles.
         </p>
         <Link
           className="mt-4 inline-flex h-11 items-center justify-center rounded-md bg-emerald-700 px-4 text-sm font-semibold text-white hover:bg-emerald-800"
@@ -40,7 +40,7 @@ export function AdminPageGuard({ children }: AdminPageGuardProps) {
       <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <h2 className="text-lg font-semibold text-slate-950">Admin access required</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          Your account is in viewer mode. You can view farm records, but editing is admin-only.
+          Your current account is set to viewer mode. You can browse farm records, but editing is reserved for admin accounts.
         </p>
         <Link
           className="mt-4 inline-flex h-11 items-center justify-center rounded-md border border-slate-300 px-4 text-sm font-semibold text-slate-700 hover:bg-slate-50"

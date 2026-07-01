@@ -7,11 +7,14 @@ export default function LoginPage() {
       <section className="mx-auto flex w-full max-w-md flex-col gap-5">
         <header className="rounded-lg border border-emerald-100 bg-white p-5 shadow-sm">
           <Link className="text-sm font-medium text-emerald-700" href="/">
-            Dashboard
+            Back to home
           </Link>
-          <h1 className="mt-2 text-2xl font-semibold text-slate-950">Login</h1>
+          <h1 className="mt-2 text-2xl font-semibold text-slate-950">Sign in</h1>
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            Use a Firebase Authentication user account to access farm records.
+            Use your farm account to open cow profiles, records, reminders, and other daily operations.
+          </p>
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            Admin users can update records, while viewer accounts can still review the farm dashboard.
           </p>
         </header>
 

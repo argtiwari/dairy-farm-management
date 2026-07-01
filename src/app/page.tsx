@@ -6,8 +6,6 @@ import {
   Beef,
   CheckCircle2,
   ChevronRight,
-  CloudRain,
-  CreditCard,
   HeartPulse,
   LineChart,
   Milk,
@@ -19,17 +17,9 @@ import {
   CalendarClock,
 } from "lucide-react";
 import { AuthActions } from "@/components/auth/auth-actions";
-// import { HomeHero } from "@/components/home/home-hero";
-// import { FarmOverview } from "@/components/home/farm-overview";
-// import { section } from "framer-motion/client";
+import { AppCard } from "@/components/ui/app-card";
 
-// import { DashboardHero } from "@/components/dashboard/dashboard-hero";
-// import { TodayTasks } from "@/components/dashboard/today-tasks";
-// import { QuickActions } from "@/components/dashboard/quick-actions";
-// // import { FarmOverview } from "@/components/dashboard/farm-overview";
 
-// import { RecentAnimals } from "@/components/dashboard/recent-animals";
-// import { RecentActivity } from "@/components/dashboard/recent-activity";
 const features = [
   {
     title: "Animal Profiles",
@@ -115,6 +105,7 @@ export default function Home() {
               </div>
 {/* <HomeHero /> */}
 {/* <FarmOverview /> */}
+
               <div className="hidden sm:block">
                 <AuthActions />
               </div>
@@ -124,15 +115,15 @@ export default function Home() {
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold text-emerald-800">
                   <Sparkles className="h-4 w-4" />
-                  Simple, fast, farmer-friendly
+                  Made for daily dairy work
                 </div>
 
                 <h1 className="mt-5 max-w-2xl text-4xl font-black leading-tight tracking-tight text-slate-950 sm:text-5xl">
-                  Manage milk, cows, health, and profit from one clean app.
+                  Your daily farm assistant for milk, cows, health, and profit.
                 </h1>
 
                 <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
-                  Track every cow, every litre, every expense, and every reminder without notebooks, confusion, or missed work.
+                  From morning milk checks to vaccination reminders and expense tracking, keep the farm moving without notebooks or missed tasks.
                 </p>
 
                 <div className="mt-6 flex flex-wrap gap-3">
@@ -140,7 +131,7 @@ export default function Home() {
                     href="/login"
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 text-sm font-semibold text-white shadow-md transition hover:bg-emerald-700"
                   >
-                    Login with Gmail
+                    Sign in to your farm
                     <ArrowRight className="h-4 w-4" />
                   </Link>
 
@@ -148,7 +139,7 @@ export default function Home() {
                     href="/dashboard"
                     className="inline-flex h-12 items-center justify-center rounded-2xl border border-emerald-200 bg-white px-5 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50"
                   >
-                    Open demo dashboard
+                    Open your dashboard
                   </Link>
                 </div>
 
@@ -211,7 +202,7 @@ export default function Home() {
                 </div>
 
                 <div className="absolute -bottom-4 -left-2 hidden rounded-2xl border border-emerald-100 bg-white px-4 py-2 text-xs font-semibold text-emerald-700 shadow-md sm:block">
-                  Mobile-ready UI
+                  Built for the shed
                 </div>
               </div>
             </div>
@@ -222,22 +213,19 @@ export default function Home() {
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
-              <article
-                key={feature.title}
-                className="rounded-[1.6rem] border border-slate-100 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-              >
+              <AppCard key={feature.title} className="p-5">
                 <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${feature.accent}`}>
                   <Icon className="h-6 w-6" />
                 </div>
                 <h3 className="mt-4 text-lg font-bold text-slate-950">{feature.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{feature.description}</p>
-              </article>
+              </AppCard>
             );
           })}
         </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="rounded-[1.8rem] border border-slate-100 bg-white p-6 shadow-sm">
+          <AppCard className="p-6">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700">
                 <ShieldCheck className="h-5 w-5" />
@@ -256,9 +244,9 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
+          </AppCard>
 
-          <div className="rounded-[1.8rem] border border-slate-100 bg-gradient-to-br from-emerald-50 to-white p-6 shadow-sm">
+          <AppCard className="bg-gradient-to-br from-emerald-50 to-white p-6">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-emerald-700 shadow-sm">
                 <BarChart3 className="h-5 w-5" />
@@ -285,10 +273,10 @@ export default function Home() {
                 The app should feel calm, easy, and trustworthy on mobile first.
               </p>
             </div>
-          </div>
+          </AppCard>
         </section>
 
-        <section className="mt-8 rounded-[1.8rem] border border-emerald-100 bg-white p-6 shadow-sm">
+        <AppCard className="mt-8 border-emerald-100 p-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-semibold text-emerald-700">Next step</p>
@@ -305,7 +293,7 @@ export default function Home() {
               <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
-        </section>
+        </AppCard>
       </section>
     </main>
   );

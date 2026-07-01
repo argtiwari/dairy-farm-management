@@ -13,10 +13,10 @@ import {
   Users,
   CheckCircle2,
   Sparkles,
-  BarChart3,
   ChevronRight,
 } from "lucide-react";
 import { AuthActions } from "@/components/auth/auth-actions";
+import { AppCard } from "@/components/ui/app-card";
 
 export default function DashboardPage() {
   return (
@@ -128,50 +128,24 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <SummaryCard title="Total Animals" value="42" subtitle="38 active" icon={Beef} />
-          <SummaryCard title="Pregnant" value="8" subtitle="2 due soon" icon={HeartPulse} />
-          <SummaryCard title="Vaccines Due" value="3" subtitle="Immediate attention" icon={BellRing} />
-          <SummaryCard title="Open Alerts" value="2" subtitle="Today" icon={ShieldAlert} />
-        </section>
-
-        <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-[1.8rem] border border-slate-100 bg-white p-6 shadow-sm">
+        <section className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+          <AppCard className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-emerald-700">Milk trend</p>
-                <h2 className="text-2xl font-bold text-slate-950">Last 7 days</h2>
+                <p className="text-sm font-semibold text-emerald-700">Today’s work</p>
+                <h2 className="text-2xl font-bold text-slate-950">What needs attention now</h2>
               </div>
-              <BarChart3 className="h-5 w-5 text-slate-400" />
+              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
             </div>
 
             <div className="mt-5 space-y-3">
-              {[
-                { day: "Mon", value: 290 },
-                { day: "Tue", value: 300 },
-                { day: "Wed", value: 315 },
-                { day: "Thu", value: 322 },
-                { day: "Fri", value: 318 },
-                { day: "Sat", value: 330 },
-                { day: "Sun", value: 325 },
-              ].map((item) => (
-                <div key={item.day} className="flex items-center gap-3">
-                  <p className="w-10 text-sm font-semibold text-slate-500">{item.day}</p>
-                  <div className="h-3 flex-1 rounded-full bg-slate-100">
-                    <div
-                      className="h-3 rounded-full bg-emerald-500"
-                      style={{ width: `${Math.min((item.value / 350) * 100, 100)}%` }}
-                    />
-                  </div>
-                  <p className="w-16 text-right text-sm font-semibold text-slate-900">
-                    {item.value}L
-                  </p>
-                </div>
-              ))}
+              <TodayWorkCard title="Check animals" subtitle="Review cows that need attention today" href="/cows" />
+              <TodayWorkCard title="Review reminders" subtitle="Vaccines and follow-ups due soon" href="/reminders" />
+              <TodayWorkCard title="Add expense" subtitle="Keep feed, medicine, and worker costs current" href="/expenses" />
             </div>
-          </div>
+          </AppCard>
 
-          <div className="rounded-[1.8rem] border border-slate-100 bg-white p-6 shadow-sm">
+          <AppCard className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-semibold text-emerald-700">Quick actions</p>
@@ -185,17 +159,32 @@ export default function DashboardPage() {
               <QuickAction href="/reminders" label="View Reminders" />
               <QuickAction href="/workers" label="Manage Workers" />
             </div>
-
-            <div className="mt-6 rounded-2xl bg-[#fcfbf7] p-4">
-              <p className="text-sm font-semibold text-slate-950">Farmer view</p>
-              <p className="mt-2 text-sm leading-6 text-slate-600">
-                Simple, fast, and clear daily control for milk, health, vaccine, and expenses.
-              </p>
-            </div>
-          </div>
+          </AppCard>
         </section>
 
-        <section className="rounded-[1.8rem] border border-emerald-100 bg-white p-6 shadow-sm">
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <SummaryCard title="Total Animals" value="42" subtitle="38 active" icon={Beef} />
+          <SummaryCard title="Pregnant" value="8" subtitle="2 due soon" icon={HeartPulse} />
+          <SummaryCard title="Vaccines Due" value="3" subtitle="Immediate attention" icon={BellRing} />
+          <SummaryCard title="Open Alerts" value="2" subtitle="Today" icon={ShieldAlert} />
+        </section>
+
+        <AppCard className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-emerald-700">Recent activity</p>
+              <h2 className="text-2xl font-bold text-slate-950">What happened recently</h2>
+            </div>
+          </div>
+
+          <div className="mt-5 space-y-3">
+            <ActivityRow title="Morning milk entered" detail="Gauri • 6:30 AM" />
+            <ActivityRow title="Vaccination reminder updated" detail="Radha • Yesterday" />
+            <ActivityRow title="Expense recorded" detail="Feed purchase • Today" />
+          </div>
+        </AppCard>
+
+        <AppCard className="border-emerald-100 p-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-semibold text-emerald-700">Next step</p>
@@ -212,9 +201,46 @@ export default function DashboardPage() {
               <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
-        </section>
+        </AppCard>
       </section>
     </main>
+  );
+}
+
+function TodayWorkCard({
+  title,
+  subtitle,
+  href,
+}: {
+  title: string;
+  subtitle: string;
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center justify-between rounded-2xl border border-slate-200 bg-[#fcfbf7] px-4 py-3 transition hover:border-emerald-200 hover:bg-emerald-50"
+    >
+      <div>
+        <p className="text-sm font-semibold text-slate-950">{title}</p>
+        <p className="mt-1 text-sm text-slate-600">{subtitle}</p>
+      </div>
+      <ArrowRight className="h-4 w-4 text-slate-400" />
+    </Link>
+  );
+}
+
+function ActivityRow({ title, detail }: { title: string; detail: string }) {
+  return (
+    <div className="flex items-center justify-between rounded-2xl border border-slate-200 bg-[#fcfbf7] px-4 py-3">
+      <div>
+        <p className="text-sm font-semibold text-slate-950">{title}</p>
+        <p className="mt-1 text-sm text-slate-600">{detail}</p>
+      </div>
+      <div className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+        New
+      </div>
+    </div>
   );
 }
 
