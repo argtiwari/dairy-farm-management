@@ -46,13 +46,15 @@ export function MobileBottomNav() {
             <div
               aria-current={active ? "page" : undefined}
               className={`flex h-11 w-11 items-center justify-center rounded-2xl transition-all ${
-                active ? "bg-emerald-600 text-white shadow-md" : "text-slate-500"
+                active
+                  ? "bg-[var(--primary)] text-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.35)]"
+                  : "text-slate-500"
               }`}
             >
               <Icon size={20} />
             </div>
 
-            <span className={`text-[11px] ${active ? "font-semibold text-emerald-700" : "text-slate-500"}`}>
+            <span className={`text-[11px] ${active ? "font-semibold text-[var(--primary)]" : "text-slate-500"}`}>
               {item.label}
             </span>
           </Link>

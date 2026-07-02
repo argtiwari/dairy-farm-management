@@ -27,7 +27,7 @@ export function LoginForm() {
 
     try {
       await loginWithEmailPassword(email, password);
-      router.push("/cows");
+      router.push("/dashboard");
       router.refresh();
     } catch {
       setError("Login nahi hua. Email aur password check karo.");

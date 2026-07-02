@@ -16,7 +16,7 @@ export function PrimaryButton({
   className = "",
 }: PrimaryButtonProps) {
   const classes =
-    "inline-flex h-12 items-center justify-center rounded-2xl bg-emerald-600 px-5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-emerald-700 hover:shadow-md active:scale-95";
+    "inline-flex h-12 items-center justify-center rounded-[20px] bg-[var(--primary)] px-5 text-sm font-semibold text-white shadow-[0_12px_30px_-18px_rgba(15,23,42,0.35)] transition duration-200 hover:bg-[var(--primary-strong)] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[rgba(17,104,65,0.35)]";
 
   if (href) {
     return (

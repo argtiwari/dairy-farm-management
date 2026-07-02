@@ -1,13 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
 :root {
-  --background: #fdf9f4;
-  --foreground: #1f2937;
-  --card: #ffffff;
-  --card-soft: #fcfbf7;
-  --primary: #047857;
-  --primary-light: #d1fae5;
-  --border: #d1d5db;
+  --background: #f7faf6;
+  --surface: #ffffff;
+  --surface-soft: #f3f7f1;
+  --foreground: #111827;
+  --muted: #475569;
+  --border: rgba(15, 23, 42, 0.08);
+  --primary: #116c41;
+  --primary-strong: #0b6036;
+  --primary-soft: #def3e4;
+  --accent: #d97706;
+  --danger: #b91c1c;
+  --shadow: 0 24px 60px -24px rgba(15, 23, 42, 0.25);
 }
 
 @theme inline {
@@ -27,6 +33,16 @@ body {
   color: var(--foreground);
   font-family: Inter, Arial, Helvetica, sans-serif;
   min-height: 100vh;
+  margin: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.01em;
+}
+
+::selection {
+  background: rgba(17, 104, 65, 0.16);
+  color: var(--foreground);
 }
 
 * {

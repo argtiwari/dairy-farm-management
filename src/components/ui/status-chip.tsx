@@ -5,16 +5,16 @@ type StatusChipProps = {
 
 const colors = {
   green:
-    "bg-green-100 text-green-700",
+    "bg-[var(--primary-soft)] text-[var(--primary)] ring-1 ring-[rgba(17,104,65,0.18)]",
 
   red:
-    "bg-red-100 text-red-700",
+    "bg-[rgba(185,28,28,0.12)] text-[var(--danger)] ring-1 ring-[rgba(185,28,28,0.18)]",
 
   yellow:
-    "bg-amber-100 text-amber-700",
+    "bg-[#fffbeb] text-[#92400e] ring-1 ring-[#fef3c7]",
 
   blue:
-    "bg-blue-100 text-blue-700",
+    "bg-[#eff6ff] text-[#1d4ed8] ring-1 ring-[#bfdbfe]",
 };
 
 export function StatusChip({
